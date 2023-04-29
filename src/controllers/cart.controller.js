@@ -44,14 +44,8 @@ export async function editCart(req, res){
 
 
 async function showCart(req, res) {
-    const [tokenType, token] = req.headers.authorization?.split(' ');
-
-    if (!token || tokenType !== 'Bearer') return res.status(401).send('Invalid Token');
-    
+    const { user } = req;
     try {
-        const user = await db.collection('sessions').findOne({ token });
-        if (!user) return res.status(404).send('User not found');
-
         const cart = await db.collection('carts').findOne({ idUser: new ObjectId(user.idUser) });
         res.status(200).send(cart);
     } catch (err) {
