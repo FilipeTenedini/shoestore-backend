@@ -10,7 +10,7 @@ async function validateToken(req, res, next) {
         if (!user) return res.status(404).send('user not found');
         req.user = user;
     } catch (err) {
-        console.log(err);
+        console.log(err.message);
     }
 
     next();
