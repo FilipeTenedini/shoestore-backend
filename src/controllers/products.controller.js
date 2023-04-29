@@ -9,12 +9,10 @@ export async function home(req,res){
     try{
         if(type === 'all'){
             const products = await db.collection('products').find().toArray();
-            products.forEach(pr => {delete pr.stock,delete pr.desc});
             res.send(products)
         }
         else{
             const products = await db.collection('products').find({gender: type}).toArray();
-            products.forEach(pr => {delete pr.stock,delete pr.desc});
             res.send(products)
         }
     }catch (err){
