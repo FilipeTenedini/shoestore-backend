@@ -1,1 +1,5 @@
-// arquivo de controller das orders. (Filipe)
+async function sendOrder(req, res) {
+    console.log(req);
+}
+
+export default { sendOrder }

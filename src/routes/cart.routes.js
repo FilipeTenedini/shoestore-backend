@@ -3,6 +3,7 @@ import cartController from '../controllers/cart.controller.js';
 
 const cartRouter = Router();
 
-cartRouter.get('/', cartController.showCart);
+cartRouter.put('/cart', cartController.editCart)
+cartRouter.get('/cart', cartController.showCart);
 
 export default cartRouter;
