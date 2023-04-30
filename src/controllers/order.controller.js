@@ -11,7 +11,7 @@ async function sendOrder(req, res) {
 
         const order = { idUser, data, address, products };
         await db.collection('orders').insertOne(order);
-            await db.collection('carts').updateOne(
+        await db.collection('carts').updateOne(
                 { idUser: user.idUser }, { $set: { products: [] } }
             );
 
