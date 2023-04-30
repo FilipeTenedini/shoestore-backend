@@ -7,6 +7,8 @@ export function validateSchema(schema) {
             return res.status(422).send(errors)
         }
 
+        req.locals = validation.value
+        console.log('locals ok.')
         next()
     }
 }
