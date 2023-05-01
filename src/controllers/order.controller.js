@@ -15,7 +15,7 @@ async function sendOrder(req, res) {
                 { idUser: user.idUser }, { $set: { products: [] } }
             );
 
-        res.send(order);
+        res.status(200).send('ok');
     } catch (err) {
         console.log(err.message);
     }
