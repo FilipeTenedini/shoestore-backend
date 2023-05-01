@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import { db } from '../config/database.js';
 
 async function sendOrder(req, res) {
@@ -36,7 +37,7 @@ async function getOrderById(req, res) {
     const { id } = req.params;
 
     try {
-        const order = await db.collection('orders').findOne({_id: ObjectId(id)});
+        const order = await db.collection('orders').findOne({_id: new ObjectId(id)});
         if(!order) res.status(404).send("Order not found.");
         res.send(order);
     } catch (error) {
