@@ -3,13 +3,15 @@ import { db } from '../config/database.js';
 import joi from "joi";
 
 export async function editCart(req, res){
-    const { idProduct, sizeProduct } = req.body;
+    const { idProduct, sizeProduct, qtProduct, priceProduct } = req.body;
     const { authorization } = req.headers;
     const token = authorization?.replace("Bearer ", "");
 
     const purchaseSchema = joi.object({
         idProduct: joi.string().required(),
-        sizeProduct: joi.string().required()
+        sizeProduct: joi.number().integer().required(),
+        qtProduct: joi.number().integer().required(),
+        priceProduct: joi.number().precision(2).required()
     })
     const validation = purchaseSchema.validate(req.body, { abortEarly: false });
     if (validation.error) {
@@ -22,6 +24,7 @@ export async function editCart(req, res){
     try {
         const sessao = await db.collection('sessions').findOne({ token });
         if (!sessao) return res.sendStatus(401);
+
         const cart = await db.collection('carts').findOne({ idUser: sessao.idUser });
         const productsList = cart.products;
 
@@ -32,7 +35,7 @@ export async function editCart(req, res){
         const result = await db.collection('carts')
             .updateOne(
                 { idUser: sessao.idUser },
-                { $set: { products: [...productsList, { idProduct, sizeProduct, qtProduct: 1 }] } }
+                { $set: { products: [...productsList, { idProduct, sizeProduct, qtProduct, priceProduct  }] } }
             );
 
         res.sendStatus(200)
