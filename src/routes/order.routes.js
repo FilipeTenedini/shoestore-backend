@@ -7,5 +7,7 @@ import { validateSchema } from '../middlewares/validateSchema.middleware.js';
 const orderRouter = Router();
 
 orderRouter.post('/order', validateToken, validateSchema(orderSchema), orderController.sendOrder);
+orderRouter.get('/order', validateToken, orderController.getOrders);
+orderRouter.get('/order/:id', validateToken, orderController.getOrderById);
 
 export default orderRouter;
