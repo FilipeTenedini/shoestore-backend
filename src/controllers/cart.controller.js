@@ -46,8 +46,6 @@ export async function editCart(req, res){
     }
 }
 
-
-
 async function showCart(req, res) {
     const { user } = req;
     try {
@@ -58,4 +56,18 @@ async function showCart(req, res) {
     }
 } 
 
-export default { showCart, editCart };
+async function removeItem(req, res) {
+    const { user } = req;
+    const { item: { idProduct } } = req.body;
+    try {
+      const cart = await db.collection('carts').findOne({ idUser: new ObjectId(user.idUser) });
+      await db.collection('carts').updateOne(
+        { _id: cart._id },
+        { $pull: { products: { idProduct } } }
+      );
+      res.status(200).send('Item removed');
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+export default { showCart, editCart, removeItem };

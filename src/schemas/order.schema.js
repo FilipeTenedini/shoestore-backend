@@ -4,6 +4,9 @@ const orderSchema = Joi.object({
     data: Joi
         .number()
         .required(),
+    payment: Joi
+        .string()
+        .required(),
     address: Joi.object({
         zipcode: Joi
             .string()
@@ -17,7 +20,6 @@ const orderSchema = Joi.object({
             .required(),
         number: Joi
             .string()
-            .alphanum()
             .required(),
     })
     .required(),

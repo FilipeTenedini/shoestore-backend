@@ -3,19 +3,18 @@ import { db } from '../config/database.js';
 
 async function sendOrder(req, res) {
     const { user } = req;
-    const { data, address } = req.locals;
+    const { data, payment, address } = req.locals;
 
     try {
         const cart = await db.collection('carts').findOne({ idUser: user.idUser });
         if (!cart) return res.status(404).send('Cart not found!');
         const { idUser, products } = cart;
+        const order = { idUser, data, payment, address, products };
 
-        const order = { idUser, data, address, products };
         await db.collection('orders').insertOne(order);
         await db.collection('carts').updateOne(
             { idUser: user.idUser }, { $set: { products: [] } }
         );
-
         res.status(200).send('ok');
     } catch (err) {
         console.log(err.message);
@@ -24,10 +23,10 @@ async function sendOrder(req, res) {
 
 async function getOrders(req, res) {
     const { user } = req;
-
     try {
-        const orders = await db.collection('orders').find({ idUser: user.idUser }).toArray();
-        res.send(orders);
+        // const orders = await db.collection('orders').find({ idUser: user.idUser }).toArray();
+        // res.send(orders);
+        console.log(user)
     } catch (error) {
         res.status(500).send(error.message);
     }
