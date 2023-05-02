@@ -3,7 +3,7 @@ import { db } from '../config/database.js';
 import joi from "joi";
 
 export async function editCart(req, res){
-    const { idProduct, sizeProduct, qtProduct, priceProduct } = req.body;
+    const { idProduct, sizeProduct, qtProduct, priceProduct, photoProduct } = req.body;
     const { authorization } = req.headers;
     const token = authorization?.replace("Bearer ", "");
 
@@ -11,7 +11,8 @@ export async function editCart(req, res){
         idProduct: joi.string().required(),
         sizeProduct: joi.number().integer().required(),
         qtProduct: joi.number().integer().required(),
-        priceProduct: joi.number().precision(2).required()
+        priceProduct: joi.number().precision(2).required(),
+        photoProduct: joi.string().required(),
     })
     const validation = purchaseSchema.validate(req.body, { abortEarly: false });
     if (validation.error) {
@@ -35,7 +36,7 @@ export async function editCart(req, res){
         const result = await db.collection('carts')
             .updateOne(
                 { idUser: sessao.idUser },
-                { $set: { products: [...productsList, { idProduct, sizeProduct, qtProduct, priceProduct  }] } }
+                { $set: { products: [...productsList, { idProduct, sizeProduct, qtProduct, priceProduct, photoProduct  }] } }
             );
 
         res.sendStatus(200)
