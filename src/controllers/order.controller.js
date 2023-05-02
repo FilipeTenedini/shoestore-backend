@@ -24,8 +24,8 @@ async function sendOrder(req, res) {
 async function getOrders(req, res) {
     const { user } = req;
     try {
-        // const orders = await db.collection('orders').find({ idUser: user.idUser }).toArray();
-        // res.send(orders);
+        const orders = await db.collection('orders').find({ idUser: user.idUser }).toArray();
+        res.send(orders);
         console.log(user)
     } catch (error) {
         res.status(500).send(error.message);
