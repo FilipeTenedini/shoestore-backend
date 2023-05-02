@@ -3,7 +3,7 @@ import { db } from '../config/database.js';
 import joi from "joi";
 
 export async function editCart(req, res){
-    const { idProduct, sizeProduct, qtProduct, priceProduct } = req.body;
+    const { idProduct, sizeProduct, qtProduct, priceProduct, photoProduct } = req.body;
     const { authorization } = req.headers;
     const token = authorization?.replace("Bearer ", "");
 
